@@ -1,0 +1,94 @@
+
+                    hobbyutil Structure & Plans
+                      someonesdad1@gmail.com
+                            19 Jun 2014 
+
+I'll call the docs/files at http://code.google.com/p/hobbyutil the "HU
+project".  Each box you see on the main page constitutes a "package";
+there may be only one file in that package or it may be a zip file
+with a number of files in it.
+
+This document is a high-level picture of how I intend to modify the
+storage of files associated with the HU project.  Basically, my plan
+is to move code-type stuff to the project's Mercurial repository and
+keep the documentation-type stuff in the Google drive storage.
+
+There are three storage locations for files associated with this
+project:
+
+    1.  The project's storage area (what you see when you click on the
+        Download tab at http://code.google.com/p/hobbyutil).  Google
+        has banned the use of this location, so it's not usable for
+        new or changed files.
+    2.  My Google drive location.  This is what I am currently using
+        to store all the latest versions of the projects files.
+    3.  The Mercurial repository.  This is where projects typically
+        keep source code, but you can store any files in the 
+        repository.
+
+Google apparently only supports Google drive under Windows.  This is
+an issue for me because I no longer use a Windows machine as my
+primary computer (I've switched back to Linux).  Yes, there may be
+some solutions out there (grive, Insync), but I'm leery of having to
+trust another third party and I don't want to pay for a tool for
+something I do as a hobby in my spare time.
+
+In the interim, I can still boot back into Windows and copy the Linux
+files to the Google drive location so that they sync up.  But this is
+painful and I doubt I'll do it very often.  It will work OK as long as
+things don't change very often.  
+
+This leads me to the following starting tactics.  The project's
+Mercurial repository will get the packages that change fairly often or
+are composed of primarily source code.  The larger packages or those
+that are more static will reside on Google drive.
+
+I know this will be frustrating to most users -- they just want a
+button to click on to download the stuff they want to look at (i.e.,
+just like Google code projects used to work before 2014).  Currently,
+I can't provide this easy with the tools at hand.
+
+Here are some different things I may do:
+
+    * Move all files to the Mercurial repository.  This makes it
+      nearly trivial for me to maintain and make updates, but it will
+      be painful to users who have to download and install Mercurial.
+
+    * Keep the files in three different places:  in the project's
+      download area for things that haven't changed in a long time,
+      Google drive, and the Mercurial repository.  This will be
+      painful and annoying to users.
+
+    * Find someone who would be willing to host my files for free and
+      do so for an indefinite period.  This is the best solution for
+      my users if they can just access the packages they want with a
+      mouse click.
+
+If you know of someone who might be willing to host the
+http://code.google.com/p/hobbyutil project's files for free, please
+let me know by email:  someonesdad1@gmail.com.
+
+Thus, it may be that I decide to move everything to the project's
+Mercurial repository.  This makes it dirt-simple for me to keep things
+up-to-date and then upload the changed stuff to Google.
+Unfortunately, it hampers the ease of getting to the project's files
+for most users, as they won't have Mercurial access, nor will they
+want to have to download Mercurial, install it, then use a command
+line command to get the repository.
+
+A nice feature of a version control tool like Mercurial or git is that
+you can get the whole HU package on your computer with the following
+command:
+
+    hg clone https://someonesdad1@code.google.com/p/hobbyutil/ 
+
+If you're on a non-Windows computer such as Debian-based Linux,
+getting and installing Mercurial is trivial with the following command
+line:
+
+    apt-get install mercurial
+
+Other distributions use similar commands.  For Windows, you'll have to
+download an MSI file and install it (right click on it in Explorer and
+click on Install).  You'll probably also have to fiddle with paths
+unless you concurrently install some GUI client like TortoiseHg.
