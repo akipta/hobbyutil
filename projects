@@ -66,12 +66,6 @@ astro:
     srcdir: /pylib
     tests: true
 
-ball:
-    category: shop
-    descr: Python script to calculate steps to turn a ball on a lathe.
-    files: [ball.py]
-    srcdir: /pylib/pgm
-
 bar:
     category: shop
     descr: Python script to print out a table of the masses of bar
@@ -1412,6 +1406,22 @@ oo_math:
     ]
     ignore: Change to just include cheatsheet
     srcdir: /doc
+
+oo_palette:
+    category: util
+    descr: Provides a python script that can make a customized color
+        palette for Open Office or Libre Office.  It's easy to make a
+        palette to your tastes and I give instructions on how to
+        change the default palettes.
+    files: [
+        oo_color_palette.odt,
+        oo_color_palette.pdf,
+        oo_color_palette.py,
+        ideal_palette.soc,
+        pictures/palette.png,
+    ]
+    ignore: None
+    srcdir: /pylib/pgm
 
 oopy:
     category: prog
