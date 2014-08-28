@@ -1,0 +1,22 @@
+# This file gives an example of making a "nice" cylindrical drill
+# holder for a set of fractional inch drills.  Suppose we want a
+# layout for drill sizes from 1/16" to 1/2" by 32nds.  Generate a
+# layout for a main circle diameter of 2".
+
+d = 1/32
+
+2*d
+3*d
+4*d
+5*d
+6*d
+7*d
+8*d
+9*d
+10*d
+11*d
+12*d
+13*d
+14*d
+15*d
+16*d

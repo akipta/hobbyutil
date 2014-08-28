@@ -1,0 +1,50 @@
+# Simple models for testing.  Each component should have a unity
+# volume in cc and unity mass in g.
+
+material water
+units cm        # Default unit for linear dimensions is cm
+munit g         # Output mass unit is grams
+vunit cc        # Output volume unit is cc (cubic cm)
+digits 4        # Number of significant figures in report
+
+rc = sqrt(1/pi)         # Radius to give a circle with unity area
+rs = (3/(4*pi))**(1/3)  # Radius to give a sphere with unity volume
+
+rect a=1, b=1, L=1
+rect a=1, b=1, L=1, neg=True  # Show negative volumes work
+cyl r = rc, L = 1
+gcyl A = 1, L = 1
+pipe d = 2*rc, t=rc, L=1
+2x4 L=1/(3/2*(4 - 1/2)*2.54**2 - (4 - pi)*(3/32*2.54)**2)
+2x6 L=1/(3/2*(6 - 1/2)*2.54**2- (4 - pi)*(3/32*2.54)**2)
+2x8 L=1/(3/2*(8 - 3/4)*2.54**2- (4 - pi)*(3/32*2.54)**2)
+2x10 L=1/(3/2*(10 - 3/4)*2.54**2- (4 - pi)*(3/32*2.54)**2)
+2x12 L=1/(3/2*(12 - 3/4)*2.54**2- (4 - pi)*(3/32*2.54)**2)
+cap r=rs, h=rs, n=2
+sph r = rs
+hex d=sqrt(2/sqrt(3)), L=1
+poly d=sqrt(2/sqrt(3)), L=1, nsides=6
+cone r=sqrt(3/pi), h=1
+pyr A=3, h=1
+frust A1=3, A2=0, h=1
+oct r=sqrt(1/(8*tan(pi/8))), L=1
+bbl L=12/pi, D=1/2, d=1/sqrt(2)
+cwedge h1=1, h2=1, r=rc
+ell a=2*rs, b=2*rs, c=2*rs
+lune r = rs, theta=2*pi
+par a=1, b=1, c=1, theta_ab=pi/2, theta_ac=pi/2, theta_bc=pi/2
+rev d=1/pi, A=1
+sphs r = rs, theta=2*pi
+torus r=1, R=1/(2*pi**2)
+user V=1
+wedge a=1/4, c=1/2, b=6, h=1
+ibeam w=1, t=1/4, t1=1, h=1, L=1
+cbeam L=1, t=1/2, w=2, h=1/2
+tbeam L=1, t1=1, h=1, t=1/2, w=1
+angle b=1, t=1/2, t1=1, a=1, L=1
+rectube a=1, b=1, t=1/2, L=1
+# 7.86 is the specific gravity of steel; the second number is the
+# measured mass of the screw.
+t125 n = 7.86/2.15
+t175 n = 7.86/2.67
+t3 n = 7.86/6.15

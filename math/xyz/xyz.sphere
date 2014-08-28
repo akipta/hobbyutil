@@ -1,0 +1,63 @@
+# Rotations on a unit sphere (see xyz.pdf).
+
+2D off
+indent 4
+
+# 1.  Define the points
+    . 0, 0, 1, np   # North pole
+    . 1, 0, 0, A    # Point at equator
+    sph
+    !out("1.  Before rotation")
+    print np, A
+    rect
+    print np, A
+    sph
+
+# 2.  Translation
+    translate A
+    !out("\n2.  After translation")
+    print np
+    rect
+    print np
+    sph
+    # x axis is pointing in radial direction, y axis is pointing east
+
+# 3.  Rotate 90 deg about z axis to make x axis point east along equator.
+    ijk
+    rotate 90, k
+    !out("\n3.  After 90 deg rot about z axis")
+    print np
+    rect
+    print np
+    sph
+
+# 4.  Rotate 90 deg about x axis to make z axis point in radial direction.
+    ijk
+    rotate 90, i
+    # xy plane now tangent to sphere
+    !out("\n4.  After 90 deg rot about x axis")
+    print np
+    rect
+    print np
+
+off
+----------------------------------------------------------------------
+You should get the following results:
+
+1.  Before rotation
+    np : Pt<<1, 0, 0 o>>
+    A  : Pt<<1, 0, 90 o>>
+    np : Pt(0, 0, 1)
+    A  : Pt(1, 0, 0)
+
+2.  After translation
+    np : Pt<<1.414, 180, 45 o>>
+    np : Pt(-1, 0, 1)
+
+3.  After 90 deg rot about z axis
+    np : Pt<<1.414, 90, 45 o>>
+    np : Pt(0, 1, 1)
+
+4.  After 90 deg rot about x axis
+    np : Pt<<1.414, 90, 135 o>>
+    np : Pt(0, 1, -1)

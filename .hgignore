@@ -1,0 +1,8 @@
+syntax: glob
+
+doc/hu.list
+doc/hu.rst
+projects.pickle
+z
+tags
+.z

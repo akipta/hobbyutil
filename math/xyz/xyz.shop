@@ -1,0 +1,52 @@
+# Shop problem example 
+
+2D off  # Show all three coordinates of points
+indent 2
+
+# Define points and line
+. 5, 36, P
+. 55, 5, 28, Q
+| P, Q, line
+
+ijk     # We need the xy plane
+
+# Define the top plane of the box with three noncollinear points
+t = 28
+. 0, 0, t, q1
+. 1, 1, t, q2
+. 0, 1, t, q3
+plane q1, q2, q3, top
+
+! out("Verify setup:")
+print P, Q, top
+
+# Calculate the intersection points to verify the line is correct
+! out("\nIntersections to verify correct line and planes:")
+intersect xy, line
+intersect top, line
+
+# Show the trace for point Q (projection angles)
+! out("\nTraces (projection angles) for point Q:")
+trace Q
+
+# Show the spherical coordinates for P and Q
+! out("\nSpherical coordinates for the points:")
+print P, Q, <<
+
+indent 0
+
+# Show the angle between the line and the xy plane
+! out()
+angle xy, line
+! out()
+
+# Project the two points P and Q into the xy plane and display the
+# direction cosines and angles of the resulting line.  Note we make
+# copies of P and Q because the project command changes its arguments.
+q = Q.copy
+p = P.copy
+project xy, p, q
+| p, q, ln
+! out("\nDirection cosines and angles of projected line:")
+indent 2
+dc ln

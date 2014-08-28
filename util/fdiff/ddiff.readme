@@ -1,0 +1,296 @@
+Synchronizing Directory Trees
+
+Have you heard the old adage, "The man with two watches doesn't
+know what time it is"?  A similar situation happens to the person
+with more than one computer.  If you're like me, you move your
+files around from computer to computer.  I'll copy a working set
+of files from my home PC to a writable CD, then take the CD into
+work.  Then I copy the CD files to the hard disk of my work PC.
+
+A problem occurs because I'll develop new things on both computers.
+I'm forever finding that my home PC doesn't have a tool I wrote at
+work or vice versa.  This is called the "update problem".  It 
+gets worse the more computers you use.
+
+One solution to the update problem would be to keep your files on
+a computer that was always available on the network.  However, there
+would still be times when you might not be able to get to your files,
+such as when you're travelling.  And network bandwidth plays a big
+role in how practical this is.
+
+A more pragmatic solution is to keep your key files on some type of
+removable storage device and take this device with you from computer
+to computer.  Common devices for this are tapes, disk drives, 
+floppy drives, and disk drives with removable media.  But even if
+you have a large removable storage device, you'll still run into
+update problems.
+
+One of the problems I had was that I wanted to know different things
+about the differences between my hard drive and the removable media
+device.  For example, sometimes I wanted to know what files were
+common between the to directory trees, what files were only on
+my hard disk, what files were only on the removable device, etc.
+
+You can hack various tools together to do these things.  But I
+frequently wished I had a single dedicated tool to do these things.
+I finally sat down and developed a tool to do the things I needed.
+
+On a 32 bit Windows machine, if you have a Microsoft Visual C++
+compiler, you probably also have the Microsoft windiff tool.  This
+is a tool close to what I wanted; it's only disadvantage is that
+it's primarily an interactive, visual tool.  I wanted an old-fashioned
+command line tool that could be built into a script if I desired.
+And windiff is obviously not portable and the source code is not
+available.  So after years of mentally trying to keep track of 
+what was where, I finally broke down and decided that I'd have to
+write the thing I wanted.
+
+I decided to implement the program in python because I knew the
+development time would be relatively fast.  The only drawback to
+an interpreted language here would be speed, but I was much more
+interested in correctness and portability first.  I figured I'd 
+rewrite the thing later in C or C++ if it was too slow.
+
+I wrote the thing in a weekend with lots of interruptions by
+kids and grandkids (normal around our house).  About half of the
+time was designing and writing the code and the other half was
+testing and debugging.  It's proven to be a useful tool for me.
+I hope you find it useful too.
+
+First, here's the man page I wrote for the tool:
+
+----------------------------------------------------------------------------
+NAME
+    ddiff -- Show file differences between two directory trees.
+
+SYNOPSIS
+    ddiff [options] [comp_op] srcdir destdir
+
+DESCRIPTION
+    This program compares two directory trees and generates a list to 
+    stdout that contains the files that meet the logic of the specified 
+    comparison operator(s).
+
+    The comparison operators (comp_op) are:
+
+        ois          File is only in srcdir tree
+        oid          File is only in destdir tree
+        com          File is common to both trees
+        !com         File is in one tree but not the other
+
+        tsn          srcdir tree's file is newer
+        tso          srcdir tree's file is older
+        t=           Identical time stamps
+        t!=          Time stamps are different
+
+        ==           Files are identical
+        !=           Files are different
+
+        z=           Same sizes
+        z!=          Don't have same sizes
+        zslt         src size less than dest
+        zsgt         src size greater than dest
+
+    You can have more than one comp_op on the command line; the effect is 
+    to OR them together.  This is used for the default output when no 
+    comp_op is specified:  the default behavior is as if you gave the two 
+    comp_ops 'ois' and 'tsn'.  This prints out files that are only in 
+    srcdir or where the srcdir version is newer.
+
+    The program will recursively descend all subdirectories of both srcdir
+    and destdir.
+
+OPTIONS
+    -c  Produce the output in "copy" format.  For each file that meets the
+        comparison criteria, two strings are printed on each line.  The first
+        string is the source file and the second string is the destination
+        file.  Both are absolute path names.  The path names are separated by a
+        tab character.  This format is suitable for input to a script to copy 
+        the files; for example, a Bourne shell script might do the following:
+
+            while read line ; do
+                cp -f $line
+            done
+
+        This would force the destdir to have the same copies of the files 
+        that the srcdir had that met the criterion.  This is meant to be 
+        easy to use, not fast.  If you want to copy a large amount of 
+        data, it would be more efficient to write a C program that reads 
+        the file names from the standard input and performs the copy.
+
+    -d  DOS format.  Makes the output pathnames have backslashes instead
+        of forward slashes.
+
+    -h  Print a copy of the man page to stdout.
+
+    -q  Puts double quotes around the filenames when the -c option is used.
+        This allows the output to be used on systems that allow spaces in the 
+        file name.
+
+    -Q  Same as -q, but the quotes are escaped.
+
+EXAMPLES
+    I developed this script to allow me to synchronize the contents of two 
+    different directory trees.  Here's an example of how I use it to 
+    synchronize my home and work PCs using a read/write CD.  Suppose I have
+    two directories c:/working on both home and work PCs (I use forward slashes
+    because I work in the Korn shell).  Also assume there's a directory 
+    d:/working on the writable CD that I use for transporting the files.  
+    Suppose I was on my home machine and I wanted to make sure the writable CD
+    and my home /working directory contained the identical files.  I'd perform
+    the following tasks:
+        
+        1.  Identify those files that are on the CD, but not on my home
+            PC:
+
+                python ddiff.py oid c:/working d:/working
+
+            I'd then copy these files to the c:/working directory on my PC.
+
+        2.  Identify those files that are on the PC but not on the CD
+            or that the CD copy is not the same as the PC copy:
+
+                python ddiff.py ois != c:/working d:/working
+
+            These files would then get copied to the CD.  These first two steps
+            ensure that the PC and CD have identical files (although the
+            modification times of corresponding files might be different).
+
+        3.  When I got to work, I'd use the following command to identify
+            those files on the CD that are different from my work PC
+            c:/working directory's files or are only on the CD:
+
+                python ddiff.py ois != d:/working c:/working
+
+            I'd copy these files from the CD to c:/working.
+
+        4.  Finally, I'd identify those files that are in the c:/working
+            directory tree of my work PC, but that are not on the CD.  The
+            following command would do this:
+                
+                python ddiff.py ois c:/working d:/working
+
+            These files would then be copied to the CD so that I could copy
+            them to my home PC when I got home.
+
+    Of course, if you don't mind wiping out the /working directory on one
+    of the PCs, then it's a simple matter to just make a complete copy to the
+    CD and copy it to the destination PC.  This script is intended to handle
+    the more complicated case when both directory trees may contain files
+    of value that you don't want to lose.
+
+    Once I have the directory trees synchronized by using the actual file
+    comparisons (which ensures that I have the same binary copies), I ensure
+    that the files have the same modification times (using the touch command).
+    This then lets me use fdiff.py with the tsn comparison operator to keep
+    things synchronized -- this is faster than using a binary compare of 
+    corresponding files.  The only constraint is that the systems must have
+    their system clock times agree within less than the time it takes me to
+    travel between the two systems.
+
+NOTES
+    On 32 bit Windows systems, you can use a similar tool that comes with the
+    Microsoft Visual C++ compiler.  It's called windiff.exe.  However, it's
+    mainly intended as an interactive tool.  You can use it as a command line
+    tool, but you'll have subsequent processing to perform on the output.
+
+ENVIRONMENT VARIABLES
+     ddiff uses no environment variables.
+
+DIAGNOSTICS
+     Possible exit status values are:
+
+     0  Successful completion.
+
+     1  Failure.  A message describing the problem will be printed to stderr.
+
+WARNINGS
+    If the filenames can contain tab characters, you may want to go into
+    the source and modify the separation character.
+
+    This has been tested running under Windows NT 4.0 with the MKS Toolkit 
+    version 5.2 and python 1.5.1.  It should work unchanged on any UNIX system,
+    but you'd better test it yourself to be sure.  
+
+    If you are using this script to synchronize two directories on different 
+    systems, you'll want to make sure that the system times are equal to within
+    the travel time between the systems.  Otherwise, the time stamps could be
+    wrong.  In this case, you could use the != comparison operator instead of
+    using time stamps.
+
+SEE ALSO
+    ddiffcp.py -- a python script that can perform the updating for you based
+    on the output of the ddiff.py script.
+
+----------------------------------------------------------------------------
+
+One of the major design tradeoffs I made was to not worry about special
+files and soft links.  I wanted things to work similarly on HPUX, Linux,
+and 32 bit Windows machines, the three types of machines I work on.  The
+common file system objects for these systems are files and directories.
+
+At the end of the man page, I mention another python script I wrote to
+use with ddiff.py:  ddiffcp.py.  This script knows how to take the 
+output from the ddiff.py script and copy the files from the source
+tree to the destination tree.  The two tools together will help you
+know that your two directory trees are synchronized.
+
+You'll need python 1.5.1 to use this tool.  If you don't have python,
+you can go to www.python.org and download it.  There's a prebuilt
+binary that's handy for 32 bit Windows systems.  I also got the source
+code for it and compiled it on my HPUX machine.  The Linux binaries
+are also available.
+
+The ddiff.py tool
+-----------------
+
+Let's go through the code for fdiff.py and highlight its major
+features.  One of the conventions I used is to append 'G' to the
+names of all global variables, which helps make it easier to
+identify global variables in functions.  One could argue that
+having this many global variables is not good programming
+practice.  Still, I tend to use global variables where I know
+that the information will be needed by more than one function.
+
+The overall structure of the program is shown by the main() function.
+The command line gets parsed and some global variables get initialized
+in the ParseCommandLine() function.  Then the two key data structures
+of the program are filled, src_dictG and dest_dictG by calls to the
+WalkDir() function.  These two data structures are dictionaries
+(also known as associative arrays (as in awk) or hashes (as in perl)).
+The file name is the key and the value is a list of two of the integers
+returned by the os.stat() function.  These two integers are the size
+of the file in bytes and the time the file was last modified.
+
+Once these two dictionaries are filled, the ProcessDictionaries()
+function is used to generate two dictionaries:  only_in_srcG, and
+only_in_destG.  The src_dictG and dest_dictG dictionaries then
+contain only the files that are common to the source and destination
+directories.  The original source tree is gotten from the union
+of only_in_srcG and src_dictG and the original destination tree
+is gotten from the union of only_in_destG and dest_dictG.
+
+The for loop in main() is for each comparison operator that was
+passed in on the command line.  The relevant function is called
+for each operator, which results in the appropriate files getting
+added to the out_dictG dictionary, which contains the information
+that will get printed to stdout.  
+
+Perhaps the best way to get a feel for the ddiff.py tool is to
+make two small directories somewhere and run some tests on them.
+Here's some commands you can run at the command line to do this;
+if you use them, you can then follow on with the example I give
+here.
+
+---------------------------------------------------------------------------
+Copyright (C) 1999 Don Peterson
+Contact:  gmail.com@someonesdad1
+  
+                         The Wide Open License (WOL)
+  
+Permission to use, copy, modify, distribute and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice and this license appear in all copies.
+THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY OF
+ANY KIND. See http://www.dspguru.com/wide-open-license for more
+information.

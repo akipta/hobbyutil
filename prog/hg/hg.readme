@@ -1,0 +1,95 @@
+Sat 15 Dec 2012 12:32:24 PM
+Updated:  Sun 29 Dec 2013 05:14:51 PM
+
+The hg.zip file contains some python utilities that are handy to have
+when you're working in a Mercurial repository.  I find them especially
+useful when working in a repository with thousands of files and lots
+of revisions.
+
+delta.py
+    Show the revision numbers where changes were made in the files of
+    the current directory that are in a Mercurial repository.  With no
+    file given on the command line, an alphabetized list of all the
+    files in the current directory is given with the revision numbers
+    where that file changed.  If one or more files are given, then the
+    output is only for those files.
+
+    The reason I wrote this script is that it can let me find which
+    files changed where in repositories that contain many files.  I
+    wanted to be able to see in which revision numbers the files
+    changed -- and only the files in the current directory, not the
+    whole repository; then these changes could be examined in more
+    detail.  On a reasonably-sized Mercurial directory with thousands
+    of check-ins and thousands of files, you can get overloaded with
+    the default 'hg status' or 'hg log' commands.
+
+    Here's some example output for a directory in my repository for
+    python utilities:
+
+        gen.py: 176
+        plot.py: 97
+        reg.py: 257 229 218 146 145 144 143 142
+        stats.py: 309 108 95
+        xfm.odt: 176
+    
+    The same listing can be shown but with the dates of the check-in
+    instead:
+
+        gen.py: 26Jan12
+        plot.py: 7May11
+        reg.py: 26Apr12 15Mar12 27Feb12 9Sep11 9Sep11 9Sep11 9Sep11 9Sep11
+        stats.py: 19Nov12 1Jul11 4May11
+        xfm.odt: 26Jan12
+
+    Run the script with the -h option to see the usage information.
+
+fhg.py
+    Requires color.py (included) and the WConio package, which you'll
+    have to download.  Note these are to get color output on a Windows
+    command line (actually, I use bash in cygwin). 
+
+    I wrote this script to find the Mercurial directories at and below
+    a given directory.  The color output will show each Mercurial name
+    in red if the repository is out of date and a check-in needs to
+    happen.
+
+    I've been slowly moving my files/projects to separate Mercurial
+    directories (rather than have one large repository) because this
+    makes things more responsive.  However, it also makes it a bit
+    harder to make sure everything is checked in.  I run this script
+    at the root of a file system and I can see all repositories that
+    need attention.
+
+    Now my 30-40 repositories are all up-to-date except for those
+    where work is currently active.
+
+hgs.py
+    Usage:  hgs.py [options] [dir]
+      Lists files in . (or dir if given) that are not being tracked by
+      Mercurial.  Note this is different than the normal "hg status"
+      command in that only files that are in the indicated directory
+      are shown.
+
+      Shows modified and untracked files by default.
+
+    Options
+        -a  Show all files in a readable format
+        -c  Show clean files (tracked files without changes)
+        -h  Show this help
+        -i  Show ignored files
+        -m  Show modified files
+        -M  Show missing files
+        -r  "recursive"  Show for files at and below the directory
+
+---------------------------------------------------------------------------
+Copyright (C) 2012 Don Peterson
+Contact:  gmail.com@someonesdad1
+  
+                         The Wide Open License (WOL)
+  
+Permission to use, copy, modify, distribute and sell this software and its
+documentation for any purpose is hereby granted without fee, provided that
+the above copyright notice and this license appear in all copies.
+THIS SOFTWARE IS PROVIDED "AS IS" WITHOUT EXPRESS OR IMPLIED WARRANTY OF
+ANY KIND. See http://www.dspguru.com/wide-open-license for more
+information.

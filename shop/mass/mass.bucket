@@ -1,0 +1,11 @@
+# This is the calculation of the absolutely-full volume of a Rheem 5
+# gallon bucket and mass when it is filled with water.
+
+material water
+munit kg
+vunit gal
+
+# Calculate the areas of the top and bottom of the frustum
+area1 = pi*10.42**2/4
+area2 = pi*11.34**2/4
+frust A1 = area1, A2 = area2, h = 14, un="in"

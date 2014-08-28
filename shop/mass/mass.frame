@@ -1,0 +1,45 @@
+# This estimates the mass of a framed room that is covered in 1/2"
+# drywall and framed with 2x4 lumber on 16" centers.  Suppose the 2x4s
+# used are 4 inches under 8' high and the dimensions in terms of 16
+# inch gaps are 12 along 1 wall and 9 along the other.  Assume 1"
+# plywood covers the floor and ignore the joists and rafters.  Each
+# wall will be a bottom 2x4, a vertical stud at each end, and a
+# horizontal stud along the tops of the vertical studs.  There's no
+# framing for windows or doors, as this is just to get an estimate.
+
+digits 2
+units in
+
+# The mass unit is the total capacity of the utility trailer
+munit 1000 lb
+
+trailer = 96.5*56.4*32.2 
+# The following volume unit is an expression for the volume of my
+# trailer in cubic inches.
+vunit trailer in3
+material fir
+
+nw = 9
+nl = 12
+width  = nw*16
+length = nl*16
+height = 8*12 - 4
+title = "Framed room; volume units are the utility trailer's volume"
+
+# Vertical studs for walls.  Multiply quantity by 2 because there are
+# two walls.  We add one to the count to avoid a fencepost error.
+2x4 L=height, n=2*(nw + 1), name="Width vert. studs"
+2x4 L=height, n=2*(nl + 1), name="Length vert. studs"
+
+# Horizontal pieces for each wall.
+2x4 L=width, n=4, name="Width hor."
+2x4 L=length, n=4, name="Length hor."
+
+# Floor plywood
+rect a=width, b=length, L=1, material="ply", name="Plywood floor"
+
+# Drywall
+material drywall
+rect a=width, b=height, L=1/2, name="Width drywall", n=2
+rect a=length, b=height, L=1/2, name="Length drywall", n=2
+rect a=length, b=width, L=1/2, name="Ceiling drywall"

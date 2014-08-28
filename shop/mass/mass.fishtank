@@ -1,0 +1,8 @@
+material acrylic
+units in
+munit kg
+vunit in^3
+rect a = 17, b = 3/16, L = 30, name="Front", n=2
+rect a = 17, b = 3/16, L = 12.5 - 2*3/16, name="Side", n=2
+rect a = 12.5 - 2*3/16, b = 3/16, L = 30, name="Bottom", n=2
+rect a = 12.5, b = 3/4, L = 30, name="Base", material="ply"

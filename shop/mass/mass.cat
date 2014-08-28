@@ -1,0 +1,31 @@
+# 16 Jan 2013
+
+# This is a model for a small metal piece I designed to fix a cat
+# scratching post we have that needed fixing.  An injection-molded
+# plastic piece broke after years of use, so I designed a plug made
+# from a 2x4 and a turned metal insert to replace a captured nut in
+# the original plastic piece.  See the drawing in the mass.pdf
+# document.
+
+digits 3
+material al
+units in
+munit g
+vunit cc
+title = "Metal adapter for cat scratching post"
+
+# The body is made from 3/4" metal bar stock.  This is a flange 0.1"
+# long.
+cyl d = 3/4, L = 0.1, name="Main body"
+
+# The body is turned down to 1/2" OD and has a 5/16-18 thread tapped
+# through it.
+cyl d = 1/2, L = 1.5, name="1/2 shank"
+# Subtract out the missing thread by modeling it as a cylinder with
+# a diameter equal to the pitch diameter.
+cyl d = 0.273, tpi = 18, L = 1.5, neg=True, name="Thread"
+
+# There are two small holes drilled in the hub to secure the adapter
+# to the 2x4 chunk of wood with small brads through some holes drilled
+# with a #48 drill (0.076").  Subtract their contribution.
+cyl d = 0.076, L = 0.1, neg=True, name="Brad holes"

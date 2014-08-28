@@ -1,14 +1,20 @@
+.sub("$URL", "https://code.google.com/p/hobbyutil")
+.(
+    m = 60
+    level1 = "="*m
+    level2 = "-"*m
+    level3 = "+"*m
+    level4 = "^"*m
+.)
 
 hobbyutil 
-============================================================
-
-Version:  27 Aug 2014
+{level1}
 
 Introduction
-------------------------------------------------------------
+{level2}
 
     This Mercurial repository is associated with the Google code
-    project at `hobbyutil <https://code.google.com/p/hobbyutil>`_ .  
+    project at `hobbyutil <$URL>`_ .  
     This project is a container for some of the things I've developed
     or gotten interested in over the years, usually as a result of a
     hobby.  
@@ -51,11 +57,9 @@ Introduction
 
     If you find something broken or unclear, please submit an issue at
     https://code.google.com/p/hobbyutil/issues/list on the project's site.
-    You'd be wise to email me also, as I virtually never look at the
-    issues because a submission is quite rare.
 
 Top level structure 
-------------------------------------------------------------
+{level2}
 
     The files in the repository's root directory are:
 
@@ -68,34 +72,40 @@ Top level structure
       to tell me when the "source" files (the files in the primary
       locations on my computer) have changed compared to the
       hobbyutil's copies.  
-    - ``projects``  This is the data file for the ``hu.py`` script.
-      It includes numerous projects that I've either not released or
-      removed because they didn't seem too popular.
 
     The ``doc`` directory contains the files used to construct
     ``0readme`` and ``0readme.html``.  The remaining directories are
     project directories.
 
 Policies
-------------------------------------------------------------
+{level2}
 
-* Python code:  My goal is to get as many scripts as possible working
-  under python 3.4.  The will also be tested under python 2.7.6.
+* Python code:  version 3.4 is the working target.  A major goal is to
+  also have the code work in version 2.7.  
 * Code and documents are licensed under the OSL3 license.
 * Stuff whose files are rather large (e.g. because of PDFs with a
   number of bitmaps) have been left in the Downloads area of
-  http://code.google.com/p/hobbyutil.  I will leave all the
-  non-deprecated files in the Downloads area for a while, but
-  eventually they will be removed.
+  http://code.google.com/p/hobbyutil.  Stuff that didn't seem too
+  popular hasn't been included in the repository.  
 * All PDF documents now include the Open Office source file that was
   used to construct that document.
 
-Projects
-------------------------------------------------------------
+If you used an old version of something that is no longer available in
+the repository or on the Downloads page at
+http://code.google.com/p/hobbyutil, you can send me an email and I
+will either have it in my archives or can recover it easily from my
+system.
 
+If you find a bug or issue, I recommend you send me an email.  I
+rarely check the Issues tab on the project's page.
+
+Projects
+{level2}
+
+.inc("hu.list")
 
 History 
-------------------------------------------------------------
+{level2}
 
     In the late 1990's, I had a small business selling software to a
     group of health care businesses that helped them with their
@@ -121,7 +131,7 @@ History
     maintain.  The actual source files are scattered all over my
     computer and much of the work was reorganizing my other project
     directories and getting document's linked images in the proper
-    location (this resulted in the util/loo project).  The ``hu.py``
+    location (this resulted in the util/loo project.  The ``hu.py``
     script is the tool I use to relate my computer's file system with
     the contents of the hobbyutil repository.  You'll see around 150
     projects given in that script, but I've culled out the ones that
@@ -131,7 +141,7 @@ History
     files.
 
 Motivation
-------------------------------------------------------------
+{level2}
 
     It requires a fair bit of work to generate, maintain, and package
     these files.  What's the motivation to do this?  
@@ -145,7 +155,6 @@ Motivation
     * GNU compiler toolchain, bash, and UNIX-type utilities
     * cygwin
     * Open Office
-    * Linux
 
     I've spent many thousands of hours using those tools over the decades
     and I'm grateful for the power they've provided me.  Putting the
@@ -183,8 +192,14 @@ Motivation
       <http://frets.com/FretsPages/pagelist.html>`_.
 
 Footnotes
-------------------------------------------------------------
+{level2}
 
 .. [#] Windows is an ancient Babylonian term meaning *you'll need to
     reformat your hard disk sooner than you think*.
 
+.(
+    import time
+    date = time.strftime("%d %b %Y")
+.)
+
+Version:  {date}

@@ -1,0 +1,31 @@
+# Air volume of a house based on laser distance measurements.
+
+# Correct the density of air to the house's elevation above sea level
+material 0.0012*0.92
+units m
+munit kg
+vunit m^3
+
+h = 2.33    # Height of rooms in m
+
+rect a=7.44, b=4.15, L=h, name="Living room"
+rect a=3.69, b=7.32, L=h, name="Green room"
+rect a=8.32, b=4.02, L=h, name="Kitchen/dining"
+rect a=6.16, b=4.15, L=h, name="Den"
+rect a=3.11, b=4.12, L=h, name="Reading room + bath"
+rect a=5.36, b=4.11, L=h, name="Computer room"
+rect a=4.63, b=7.53, L=h, name="Master bedroom"
+rect a=3.26, b=4.63, L=h, name="Bedroom 1"
+rect a=3.38, b=4.63, L=h, name="Bedroom 2"
+rect a=3.44, b=3.54, L=h, name="Laundry room"
+rect a=2.87, b=2.83, L=h, name="Front bathroom"
+rect a=0.76, b=1.22, L=h, name="Front hall closet"
+rect a=1.43, b=3.63, L=h, name="BR closets + linen"
+rect a=0.94, b=1.37, L=h, name="Furnace closet"
+rect a=0.82, b=1.46, L=h, name="Hall corner"
+rect a=1.07, b=2.47, L=h, name="MBR hall"
+rect a=4.15, b=1.46, L=h, name="Front hall"
+rect a=4.91, b=1.07, L=h, name="Side hall"
+rect a=4.15, b=4.30, L=h, name="Storage room"
+rect a=5.33, b=8.20, L=h, name="Shop"
+rect a=8.26, b=8.81, L=h, name="Garage"

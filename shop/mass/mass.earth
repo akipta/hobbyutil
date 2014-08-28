@@ -1,0 +1,8 @@
+digits 5
+munit Yg
+vunit Mm^3
+r = 6371.01
+cap r = r, h = r, un="km", n=2, rho=5.51526
+# From GNU units program:  
+#    Mass of Earth   = 5974.2 Yg
+#    Volume of Earth = 1083.2 Mm^3

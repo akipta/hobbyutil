@@ -1,0 +1,28 @@
+# Locating an underground splice
+
+deg             # Degrees is the default, but it doesn't hurt to show
+                # it explicitly.
+compass on      # Angles measured clockwise from true north
+indent 2        # Indent output two spaces
+polar           # Show output in polar coordinates
+
+# The three points in the problem
+<  3.300(1), 130(2), A
+< 35.77(1),  349.3(5), B
+< 38.85(10),  25.6(5), C
+
+# Translate the origin to point A so we can enter the splice location
+push                        # Save current coordinate system
+translate A
+< 31.13(5), 2(2), splice    # Note we're entering in polar coordinates
+! out("Verification of splice point with respect to point A")
+print splice                # So we can verify it's correct
+pop                         # Restore default coordinate system
+
+! out("Verification of other points with respect to origin O")
+print A, B, C  # Print all the defined points in order defined
+
+# Print desired distances
+! out("\nDistances in m")
+dist B, splice
+dist C, splice
